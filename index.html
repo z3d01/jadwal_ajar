@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Mengajar - SMKS Hikmah Yapis Jayapura</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        header p {
+            color: #718096;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .badge-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge.primary {
+            background: #ebf8ff;
+            color: #2b6cb0;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 14px 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .hari-row {
+            font-weight: 600;
+            color: #1a365d;
+            background-color: #edf2f7;
+        }
+
+        .istirahat {
+            background-color: #fffaf0 !important;
+            color: #dd6b20;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .upacara,
+        .senam,
+        .keagamaan {
+            background-color: #f7fafc;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .gim {
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+
+        .koding {
+            color: #319795;
+            font-weight: 600;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        /* Navigation Tabs */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background-color: #edf2f7;
+            color: #4a5568;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            border: 2px solid transparent;
+        }
+
+        .tab-button:hover {
+            background-color: #e2e8f0;
+            color: #1a365d;
+            transform: translateY(-1px);
+        }
+
+        .tab-button.active {
+            background-color: #2b6cb0;
+            color: white;
+            border-color: #2b6cb0;
+            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.25);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Download Button */
+        .btn-download {
+            display: inline-block;
+            background-color: #3182ce;
+            color: white;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #3182ce;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-download:hover {
+            background-color: #2b6cb0;
+            border-color: #2b6cb0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            td,
+            th {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>JADWAL MENGAJAR GURU</h1>
+            <p>SMKS Hikmah Yapis Jayapura — Tahun Ajaran 2026/2027</p>
+            <p class="center">GANJIL</p>
+            <div class="badge-container">
+                <span class="badge">Nama: M. Zainal Arifin, S.Kom.</span>
+                <span class="badge primary">Total Beban: 24 JP</span>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <button class="tab-button active" onclick="switchTab('senin')">SENIN</button>
+            <button class="tab-button" onclick="switchTab('selasa')">SELASA</button>
+            <button class="tab-button" onclick="switchTab('rabu')">RABU</button>
+            <button class="tab-button" onclick="switchTab('kamis')">KAMIS</button>
+            <button class="tab-button" onclick="switchTab('jumat')">JUMAT</button>
+        </div>
+
+        <!-- TAB CONTENT: SENIN -->
+        <div id="senin" class="tab-content active">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;" class="center">Jam Ke</th>
+                            <th style="width: 15%;" class="center">Alokasi Waktu</th>
+                            <th style="width: 45%;">Mata Pelajaran / Kegiatan</th>
+                            <th style="width: 15%;" class="center">Kelas</th>
+                            <th style="width: 15%;" class="center">Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">-</td>
+                            <td class="center">07.00 - 07.30</td>
+                            <td class="upacara">UPACARA</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">10.10 - 10.25</td>
+                            <td>ISTIRAHAT</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">5 - 6</td>
+                            <td class="center">11.05 - 11.45</td>
+                            <td class="koding">KODING DAN KECERDASAN ARTIFISIAL</td>
+                            <td class="center">X AKL</td>
+                            <td class="center"><a href="tugas/tugas_x_akl.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">11.45 - 12.20</td>
+                            <td>ISTIRAHAT KE 2</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">7-10</td>
+                            <td class="center">13.00 - 15.00</td>
+                            <td class="gim">KONSENTRASI KEAHLIAN PENGEMBANGAN GIM</td>
+                            <td class="center">XI GIM</td>
+                            <td class="center"><a href="tugas/tugas_xi_gim.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: SELASA -->
+        <div id="selasa" class="tab-content">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;" class="center">Jam Ke</th>
+                            <th style="width: 15%;" class="center">Alokasi Waktu</th>
+                            <th style="width: 45%;">Mata Pelajaran / Kegiatan</th>
+                            <th style="width: 15%;" class="center">Kelas</th>
+                            <th style="width: 15%;" class="center">Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">-</td>
+                            <td class="center">07.00 - 07.30</td>
+                            <td>PEMBIASAAN</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">10.10 - 10.25</td>
+                            <td>ISTIRAHAT</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">5 - 6</td>
+                            <td class="center">10.25 - 11.45</td>
+                            <td class="koding">KODING DAN KECERDASAN ARTIFISIAL</td>
+                            <td class="center">X PPLG</td>
+                            <td class="center"><a href="tugas/tugas_x_pplg.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">11.45 - 12.20</td>
+                            <td>ISTIRAHAT KE 2</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">7-10</td>
+                            <td class="center">12.20 - 15.00</td>
+                            <td class="gim">KONSENTRASI KEAHLIAN PENGEMBANGAN GIM</td>
+                            <td class="center">XI GIM</td>
+                            <td class="center"><a href="tugas/tugas_xi_gim.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: RABU -->
+        <div id="rabu" class="tab-content">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;" class="center">Jam Ke</th>
+                            <th style="width: 15%;" class="center">Alokasi Waktu</th>
+                            <th style="width: 45%;">Mata Pelajaran / Kegiatan</th>
+                            <th style="width: 15%;" class="center">Kelas</th>
+                            <th style="width: 15%;" class="center">Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">-</td>
+                            <td class="center">07.00 - 07.30</td>
+                            <td>PEMBIASAAN</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">10.10 - 10.25</td>
+                            <td>ISTIRAHAT</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">5-6</td>
+                            <td class="center">10.25 - 11.45</td>
+                            <td class="gim">KONSENTRASI KEAHLIAN PENGEMBANGAN GIM</td>
+                            <td class="center">XI GIM</td>
+                            <td class="center"><a href="tugas/tugas_xi_gim.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">11.45 - 12.20</td>
+                            <td>ISHOMA</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">7-10</td>
+                            <td class="center">12.20 - 15.00</td>
+                            <td class="gim">KONSENTRASI KEAHLIAN PENGEMBANGAN GIM</td>
+                            <td class="center">XI GIM</td>
+                            <td class="center"><a href="tugas/tugas_xi_gim.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: KAMIS -->
+        <div id="kamis" class="tab-content">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;" class="center">Jam Ke</th>
+                            <th style="width: 15%;" class="center">Alokasi Waktu</th>
+                            <th style="width: 45%;">Mata Pelajaran / Kegiatan</th>
+                            <th style="width: 15%;" class="center">Kelas</th>
+                            <th style="width: 15%;" class="center">Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">-</td>
+                            <td class="center">07.00 - 07.30</td>
+                            <td class="senam">SENAM PAGI</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">10.10 - 10.25</td>
+                            <td>ISTIRAHAT</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">11.45 - 12.20</td>
+                            <td>ISTIRAHAT KE 2</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">7-10</td>
+                            <td class="center">12.20 - 15.00</td>
+                            <td class="gim">KONSENTRASI KEAHLIAN PENGEMBANGAN GIM</td>
+                            <td class="center">XI GIM</td>
+                            <td class="center"><a href="tugas/tugas_xi_gim.pdf" class="btn-download" download>Unduh</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: JUMAT -->
+        <div id="jumat" class="tab-content">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;" class="center">Jam Ke</th>
+                            <th style="width: 15%;" class="center">Alokasi Waktu</th>
+                            <th style="width: 45%;">Mata Pelajaran / Kegiatan</th>
+                            <th style="width: 15%;" class="center">Kelas</th>
+                            <th style="width: 15%;" class="center">Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">-</td>
+                            <td class="center">07.00 - 07.30</td>
+                            <td class="senam">KEGIATAN KEAGAMAAN</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center">1 - 2</td>
+                            <td class="center">07.30 - 08.50</td>
+                            <td class="senam">KODING DAN KECERDASAN ARTIFISIAL</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                        <tr class="istirahat">
+                            <td class="center">-</td>
+                            <td class="center">11.25 - 13.00</td>
+                            <td>JUMATAN</td>
+                            <td class="center">-</td>
+                            <td class="center">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SMKS Hikmah Yapis Jayapura. Dioptimalkan untuk akses seluler.</p>
+    </footer>
+
+    <!-- JavaScript to Handle Tabs -->
+    <script>
+        function switchTab(tabId) {
+            // Sembunyikan semua konten tab
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Nonaktifkan semua tombol tab
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Tampilkan konten tab yang aktif
+            document.getElementById(tabId).classList.add('active');
+
+            // Cari tombol yang mengarah ke tabId dan aktifkan
+            const activeButton = Array.from(tabButtons).find(btn => btn.getAttribute('onclick').includes(tabId));
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
